@@ -14,5 +14,11 @@ export const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
     backgroundColor: "#F6F6F6",
   },
-  input: { width: "80%", padding: 16 },
+  input: {
+    width: "85%",
+    padding: 16,
+    fontFamily: "Roboto-Regulat",
+    fontSize: 16,
+    lineHeight: 19,
+  },
 });

@@ -1,71 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { View } from "react-native";
 
-import { View, Text, Keyboard } from "react-native";
+import FormAuth from "../../components/FormAuth";
 
-import BottonForm from "../../components/ButtonForm";
+import { formAuthStyles } from "../../components/FormAuth/style";
 
-import InputForm from "../../components/InputForm";
+const LoginScreen = ({ ...prop }) => {
+  const { isShowKeyboard } = prop.stateKeyboard;
 
-import { styles } from "./style";
-
-const LoginScreen = ({ stateKeyboard, keyboardHiden }) => {
-  const { isShowKeyboard, setIsShowKeyboard } = stateKeyboard;
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const emailHandler = (text) => setEmail(text);
-  const passwordHandler = (text) => setPassword(text);
-
-  const submitHandler = () => {
-    console.log(`email: ${email}`);
-    console.log(`password: ${password}`);
-    keyboardHiden();
-    setEmail("");
-    setPassword("");
-  };
-  useEffect(() => {
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setIsShowKeyboard(false);
-    });
-    return () => {
-      hideSubscription.remove();
-    };
-  }, []);
   return (
     <View
       style={{
-        ...styles.form,
+        ...formAuthStyles.form,
         paddingBottom: isShowKeyboard ? 16 : 111,
       }}
     >
-      <Text style={styles.formTitle}>Увійти</Text>
-
-      <View style={styles.formInner}>
-        <InputForm
-          onFocus={() => setIsShowKeyboard(true)}
-          keyboardType="email-address"
-          value={email}
-          onChangeText={emailHandler}
-          placeholder="Адреса електронної пошти"
-        />
-
-        <InputForm
-          onFocus={() => setIsShowKeyboard(true)}
-          value={password}
-          onChangeText={passwordHandler}
-          placeholder="Пароль"
-          password
-        />
-        {!isShowKeyboard && (
-          <>
-            <BottonForm title="Зарегистрироваться" onPress={submitHandler} />
-
-            <Text style={styles.text}>
-              Немає облікового запису? Зареєструйся
-            </Text>
-          </>
-        )}
-      </View>
+      <FormAuth title="Увійти" {...prop} />
     </View>
   );
 };
