@@ -2,23 +2,23 @@ import React, { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-import {
-  ImageBackground,
-  View,
-  TouchableWithoutFeedback,
-  Keyboard,
-  KeyboardAvoidingView,
-} from "react-native";
+import { Keyboard } from "react-native";
 
-import RegistrationScreen from "./Screens/RegistrationScreen";
-import LoginScreen from "./Screens/LoginScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { styles } from "./style";
+import Container from "./components/Container";
+import LoginScreen from "./Screens/Auth/LoginScreen";
+import RegistrationScreen from "./Screens/Auth/RegistrationScreen";
+import Home from "./Screens/Home";
 
-const imgBg = require("./assets/App_BG.png");
+const AuthStack = createNativeStackNavigator();
 
 export default function App() {
+  const [isAuth, setIsAuth] = useState(true);
+
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+
   const [fontsLoaded] = useFonts({
     "Roboto-Regulat": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
@@ -39,23 +39,39 @@ export default function App() {
     Keyboard.dismiss();
   };
   return (
-    <TouchableWithoutFeedback onPress={keyboardHiden}>
-      <View style={styles.container} onLayout={onLayoutRootView}>
-        <ImageBackground source={imgBg} resizeMode="cover" style={styles.imgBg}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "0"}
-          >
-            {/* <LoginScreen
-              stateKeyboard={{ isShowKeyboard, setIsShowKeyboard }}
+    <NavigationContainer>
+      <AuthStack.Navigator>
+        <AuthStack.Screen options={{ headerShown: false }} name="Login">
+          {(props) => (
+            <Container
               keyboardHiden={keyboardHiden}
-            /> */}
-            <RegistrationScreen
-              stateKeyboard={{ isShowKeyboard, setIsShowKeyboard }}
+              onLayoutRootView={onLayoutRootView}
+            >
+              <LoginScreen
+                navigation={props.navigation}
+                stateKeyboard={{ isShowKeyboard, setIsShowKeyboard }}
+                keyboardHiden={keyboardHiden}
+              />
+            </Container>
+          )}
+        </AuthStack.Screen>
+
+        <AuthStack.Screen options={{ headerShown: false }} name="Register">
+          {(props) => (
+            <Container
               keyboardHiden={keyboardHiden}
-            />
-          </KeyboardAvoidingView>
-        </ImageBackground>
-      </View>
-    </TouchableWithoutFeedback>
+              onLayoutRootView={onLayoutRootView}
+            >
+              <RegistrationScreen
+                navigation={props.navigation}
+                stateKeyboard={{ isShowKeyboard, setIsShowKeyboard }}
+                keyboardHiden={keyboardHiden}
+              />
+            </Container>
+          )}
+        </AuthStack.Screen>
+        <AuthStack.Screen name="Home" component={Home} />
+      </AuthStack.Navigator>
+    </NavigationContainer>
   );
 }
