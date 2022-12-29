@@ -20,7 +20,6 @@ export const formAuthStyles = StyleSheet.create({
     color: "#212121",
   },
   formTextInfo: {
-    marginTop: 16,
     textAlign: "center",
     fontFamily: "Roboto-Regulat",
     fontSize: 16,

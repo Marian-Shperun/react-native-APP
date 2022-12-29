@@ -1,6 +1,8 @@
 import { Icon } from "@rneui/themed";
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
+
+import { COLORS } from "../../constants";
 import { styles } from "./style";
 
 const InputForm = ({
@@ -27,7 +29,7 @@ const InputForm = ({
             onPress={() => setHiddenPass(!hiddenPass)}
             name={hiddenPass ? "ios-eye-outline" : "ios-eye-off-outline"}
             type="ionicon"
-            color="#FF6C00"
+            color={COLORS.akcent}
           />
         )}
       </View>

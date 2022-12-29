@@ -4,9 +4,8 @@ import { View, Image } from "react-native";
 
 import { Icon } from "@rneui/themed";
 
+import { IMGS, COLORS } from "../../constants";
 import { styles } from "./style";
-
-const img = "../../assets/ava.png";
 
 const Avatart = ({ state }) => {
   const { stateAvatar, setStateAvatar } = state;
@@ -15,7 +14,7 @@ const Avatart = ({ state }) => {
       <View style={styles.imgAvatar}>
         {stateAvatar && (
           <Image
-            source={require("../../assets/ava.png")}
+            source={IMGS.userAva}
             style={{ width: "100%", height: "100%" }}
           />
         )}
@@ -23,19 +22,21 @@ const Avatart = ({ state }) => {
           style={{
             ...styles.addAvatar,
             transform: [{ rotate: !stateAvatar ? "0deg" : "45deg" }],
-            borderColor: !stateAvatar ? "#FF6C00" : "#E8E8E8",
-            backgroundColor: !stateAvatar ? "none" : "#ffff",
+            borderColor: !stateAvatar ? COLORS.akcent : COLORS.gray,
+            backgroundColor: !stateAvatar ? "none" : COLORS.white,
           }}
           accessibilityRole="button"
         >
           <Icon
             name="add"
             type="ionicon"
-            color={!stateAvatar ? "#FF6C00" : "#BDBDBD"}
+            color={!stateAvatar ? COLORS.akcent : "#BDBDBD"}
             size={21}
             style={{ right: -0.8 }}
             onPress={() => {
-              !stateAvatar ? setStateAvatar(img) : setStateAvatar("");
+              !stateAvatar
+                ? setStateAvatar("The way to the picture")
+                : setStateAvatar("");
             }}
           />
         </View>

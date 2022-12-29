@@ -1,37 +1,43 @@
 import React, { useState, useEffect } from "react";
 
-import { View, Keyboard, Text } from "react-native";
+import { View, Keyboard, Text, Platform } from "react-native";
 
 import InputForm from "../InputForm";
-import BottonForm from "../ButtonForm";
+import ButtonsForForm from "../ButtonsForForm";
 
 import { formAuthStyles } from "./style";
+import Avatar from "../Avatar";
 
-const FormAuth = ({ registration, title, stateAvatar, ...prop }) => {
+const FormAuth = ({ registration, title, ...prop }) => {
+  // console.log(Platform.OS);
   const {
     stateKeyboard: { isShowKeyboard, setIsShowKeyboard },
     keyboardHiden,
+    navigation,
   } = prop;
 
+  const [stateAvatar, setStateAvatar] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [isAuth, setIsAuth] = useState(false);
-
   const nameHandler = (text) => setName(text);
   const emailHandler = (text) => setEmail(text);
   const passwordHandler = (text) => setPassword(text);
-
   const submitHandler = () => {
+    if (registration) {
+      console.log(`login: ${name}`);
+      console.log(`avatar: ${stateAvatar}`);
+    }
     console.log(`email: ${email}`);
     console.log(`password: ${password}`);
-    if (registration) console.log(`avatar: ${stateAvatar}`);
 
     keyboardHiden();
     setName("");
     setEmail("");
     setPassword("");
+
+    navigation.navigate("Home");
   };
 
   useEffect(() => {
@@ -45,6 +51,8 @@ const FormAuth = ({ registration, title, stateAvatar, ...prop }) => {
 
   return (
     <View style={formAuthStyles.formInner}>
+      {registration && <Avatar state={{ stateAvatar, setStateAvatar }} />}
+
       <Text
         style={{
           ...formAuthStyles.formTitle,
@@ -59,9 +67,10 @@ const FormAuth = ({ registration, title, stateAvatar, ...prop }) => {
           onFocus={() => setIsShowKeyboard(true)}
           value={name}
           onChangeText={nameHandler}
-          placeholder="Логин"
+          placeholder="Логін"
         />
       )}
+
       <InputForm
         onFocus={() => setIsShowKeyboard(true)}
         keyboardType="email-address"
@@ -76,10 +85,14 @@ const FormAuth = ({ registration, title, stateAvatar, ...prop }) => {
         placeholder="Пароль"
         password
       />
+
       {!isShowKeyboard && (
-        <BottonForm
+        <ButtonsForForm
           title={registration ? "Реєструвати" : "Увійти "}
-          onPress={submitHandler}
+          submitHandler={submitHandler}
+          navHandle={() => {
+            navigation.navigate(registration ? "Login" : "Register");
+          }}
           textInfo={
             registration
               ? "Вже є обліковий запис? Увійти"
