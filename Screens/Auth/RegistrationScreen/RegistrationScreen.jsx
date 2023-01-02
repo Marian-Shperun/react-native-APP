@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-
 import { View } from "react-native";
 
-import FormAuth from "../../../components/FormAuth";
+import FormAuth from "../../../components/Form/FormAuth";
+import { useKeyboardState } from "../../../hooks/ContextProvider";
 
-import { formAuthStyles } from "../../../components/FormAuth/style";
+import { formAuthStyles } from "../../../components/Form/FormAuth/style";
 
-const RegistrationScreen = ({ ...prop }) => {
-  const { isShowKeyboard } = prop.stateKeyboard;
+const RegistrationScreen = (props) => {
+  const { isShowKeyboard } = useKeyboardState();
 
   return (
     <View
@@ -16,7 +15,7 @@ const RegistrationScreen = ({ ...prop }) => {
         paddingBottom: isShowKeyboard ? 16 : 45,
       }}
     >
-      <FormAuth registration title="Реєстрація" {...prop} />
+      <FormAuth registration title="Реєстрація" {...props} />
     </View>
   );
 };

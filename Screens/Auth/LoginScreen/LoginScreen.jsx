@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
 import { View, Dimensions, KeyboardAvoidingView } from "react-native";
 
-import FormAuth from "../../../components/FormAuth";
+import FormAuth from "../../../components/Form/FormAuth";
 
-import { formAuthStyles } from "../../../components/FormAuth/style";
+import { formAuthStyles } from "../../../components/Form/FormAuth/style";
+import { useKeyboardState } from "../../../hooks/ContextProvider";
 
-const LoginScreen = ({ ...prop }) => {
-  const { isShowKeyboard } = prop.stateKeyboard;
+const LoginScreen = (props) => {
+  const { isShowKeyboard } = useKeyboardState();
 
   // const [dimensions, setDimensions] = useState(
   //   Dimensions.get("window").width - 20 * 2
@@ -24,17 +24,15 @@ const LoginScreen = ({ ...prop }) => {
   //   };
   // }, []);
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "0"}>
-      <View
-        style={{
-          ...formAuthStyles.form,
-          // width: dimensions,
-          paddingBottom: isShowKeyboard ? 16 : 111,
-        }}
-      >
-        <FormAuth title="Увійти" {...prop} />
-      </View>
-    </KeyboardAvoidingView>
+    <View
+      style={{
+        ...formAuthStyles.form,
+        // width: dimensions,
+        paddingBottom: isShowKeyboard ? 16 : 111,
+      }}
+    >
+      <FormAuth title="Увійти" {...props} />
+    </View>
   );
 };
 
