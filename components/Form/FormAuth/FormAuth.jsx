@@ -3,27 +3,43 @@ import React, { useState, useEffect } from "react";
 import { View, Keyboard, Text, Platform } from "react-native";
 
 import InputForm from "../InputForm";
-import ButtonsForForm from "../ButtonsForForm";
+import ButtonsForForm from "../../ButtonsForForm";
+
+import {
+  useHidenKeyboard,
+  useKeyboardState,
+  useAuth,
+} from "../../../hooks/ContextProvider";
 
 import { formAuthStyles } from "./style";
-import Avatar from "../Avatar";
+import Avatar from "../../Avatar";
 
-const FormAuth = ({ registration, title, ...prop }) => {
+const FormAuth = ({ registration, title, navigation }) => {
   // console.log(Platform.OS);
-  const {
-    stateKeyboard: { isShowKeyboard, setIsShowKeyboard },
-    keyboardHiden,
-    navigation,
-  } = prop;
+  const keyboardHiden = useHidenKeyboard();
+  const keyboardState = useKeyboardState();
+  const { setIsAuth } = useAuth();
+
+  const { isShowKeyboard, setIsShowKeyboard } = keyboardState;
 
   const [stateAvatar, setStateAvatar] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setIsShowKeyboard(false);
+    });
+    return () => {
+      hideSubscription.remove();
+    };
+  }, []);
+
   const nameHandler = (text) => setName(text);
   const emailHandler = (text) => setEmail(text);
   const passwordHandler = (text) => setPassword(text);
+
   const submitHandler = () => {
     if (registration) {
       console.log(`login: ${name}`);
@@ -37,17 +53,9 @@ const FormAuth = ({ registration, title, ...prop }) => {
     setEmail("");
     setPassword("");
 
-    navigation.navigate("Home");
+    setIsAuth(true);
+    // navigation.navigate("Home");
   };
-
-  useEffect(() => {
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setIsShowKeyboard(false);
-    });
-    return () => {
-      hideSubscription.remove();
-    };
-  }, []);
 
   return (
     <View style={formAuthStyles.formInner}>
@@ -70,7 +78,6 @@ const FormAuth = ({ registration, title, ...prop }) => {
           placeholder="Логін"
         />
       )}
-
       <InputForm
         onFocus={() => setIsShowKeyboard(true)}
         keyboardType="email-address"

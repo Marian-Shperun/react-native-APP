@@ -2,23 +2,38 @@ import { Icon } from "@rneui/themed";
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
 
-import { COLORS } from "../../constants";
+import { COLORS } from "../../../constants";
 import { styles } from "./style";
-
 const InputForm = ({
   label,
   iconName,
   error,
   typeIcon,
   password,
+  inputPost,
+  location,
   ...props
 }) => {
   const [hiddenPass, setHiddenPass] = useState(password);
   return (
     <View>
-      <View style={styles.inputWrapper}>
+      <View
+        style={
+          !inputPost
+            ? { ...styles.inputWrapper, ...styles.inputWrapperAuth }
+            : { ...styles.inputWrapper, ...styles.inputWrapperPost }
+        }
+      >
+        {location && (
+          <Icon
+            style={{ top: 12 }}
+            name="location-outline"
+            type="ionicon"
+            color="#BDBDBD"
+          />
+        )}
         <TextInput
-          style={styles.input}
+          style={{ ...styles.input, left: location && -40 }}
           {...props}
           autoCorrect={false}
           secureTextEntry={hiddenPass}

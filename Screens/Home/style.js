@@ -1,23 +1,13 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../constants";
 
 export const styles = StyleSheet.create({
-  avatar: { flex: 1, alignItems: "center" },
-  imgAvatar: {
-    position: "absolute",
-    top: 0,
-    width: 120,
-    height: 120,
-    transform: [{ translateY: -60 }],
-    borderRadius: 16,
-    backgroundColor: "#F6F6F6",
-  },
-  addAvatar: {
-    position: "absolute",
-    bottom: 14,
-    right: -12.5,
-    width: 25,
-    height: 25,
-    borderWidth: 1,
+  activeTab: {
+    backgroundColor: COLORS.akcent,
+    paddingTop: 13.5,
+    paddingBottom: 13.5,
+    paddingLeft: 28.5,
+    paddingRight: 28.5, //58.5
     borderRadius: 50,
   },
 });
