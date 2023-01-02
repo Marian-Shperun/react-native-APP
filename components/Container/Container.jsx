@@ -5,19 +5,29 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
+import {
+  useHidenKeyboard,
+  useConnectingFonts,
+} from "../../hooks/ContextProvider";
+
 import { IMGS } from "../../constants";
 
 import { styles } from "./style";
-const Container = ({ children, ...prop }) => {
-  const { onLayoutRootView, keyboardHiden } = prop;
+
+const Container = ({ children, bgNone }) => {
+  const keyboardHiden = useHidenKeyboard();
+  const onLayoutRootView = useConnectingFonts();
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHiden}>
-      <View style={styles.container} onLayout={onLayoutRootView}>
+      <View style={styles.container}>
         <ImageBackground
-          source={IMGS.imgBg}
+          source={bgNone ? "" : IMGS.imgBg}
           resizeMode="cover"
-          style={styles.imgBg}
+          style={{
+            ...styles.imgBg,
+            flex: bgNone ? 0 : 1,
+          }}
         >
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "0"}

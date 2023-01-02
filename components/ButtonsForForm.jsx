@@ -2,7 +2,7 @@ import { TouchableOpacity, Text } from "react-native";
 import { Button } from "@rneui/themed";
 
 import { COLORS } from "../constants";
-import { formAuthStyles } from "./FormAuth/style";
+import { formAuthStyles } from "./Form/FormAuth/style";
 
 const ButtonsForForm = ({ title, submitHandler, textInfo, navHandle }) => {
   return (

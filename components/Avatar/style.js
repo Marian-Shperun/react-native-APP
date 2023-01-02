@@ -4,7 +4,6 @@ export const styles = StyleSheet.create({
   avatar: { flex: 1, alignItems: "center" },
   imgAvatar: {
     position: "absolute",
-    top: 0,
     width: 120,
     height: 120,
     transform: [{ translateY: -60 }],

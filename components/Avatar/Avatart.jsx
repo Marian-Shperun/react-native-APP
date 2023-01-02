@@ -7,11 +7,11 @@ import { Icon } from "@rneui/themed";
 import { IMGS, COLORS } from "../../constants";
 import { styles } from "./style";
 
-const Avatart = ({ state }) => {
+const Avatart = ({ state, profile }) => {
   const { stateAvatar, setStateAvatar } = state;
   return (
     <View style={styles.avatar}>
-      <View style={styles.imgAvatar}>
+      <View style={{ ...styles.imgAvatar, top: profile ? -92 : 0 }}>
         {stateAvatar && (
           <Image
             source={IMGS.userAva}
