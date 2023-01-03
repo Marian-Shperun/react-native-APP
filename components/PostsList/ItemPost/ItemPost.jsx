@@ -7,7 +7,8 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import { IMGS, COLORS } from "../../../constants";
 
-const ItemPost = () => {
+const ItemPost = ({ post, navigation }) => {
+  
   return (
     <View style={{ marginBottom: 32 }}>
       <View
@@ -20,11 +21,11 @@ const ItemPost = () => {
         }}
       >
         <Image
-          source={IMGS.postImg}
+          source={{ uri: post.photo }}
           style={{ width: "100%", height: "100%" }}
         />
       </View>
-      <Text style={{ color: COLORS.black, marginBottom: 8 }}>Name Post</Text>
+      <Text style={{ color: COLORS.black, marginBottom: 8 }}>{post.title}</Text>
       <View
         style={{
           flexDirection: "row",
@@ -38,15 +39,26 @@ const ItemPost = () => {
             alignItems: "flex-end",
           }}
         >
-          <FontAwesome name="comment" size={24} color={COLORS.akcent} />
-          <Text style={{ color: COLORS.black, marginLeft: 6 }}>5</Text>
-          <AntDesign
-            name="like2"
+          <FontAwesome
+            name={post.comments ? "comment" : "comment-o"}
             size={24}
-            color={COLORS.akcent}
+            color={post.comments ? COLORS.akcent : "#BDBDBD"}
+            onPress={() => {
+              navigation.navigate("CommentsScreen");
+            }}
+          />
+          <Text style={{ color: COLORS.black, marginLeft: 6 }}>
+            {post.comments && post.comments}
+          </Text>
+          <AntDesign
+            name={post.like ? "like1" : "like2"}
+            size={24}
+            color={post.like ? COLORS.akcent : "#BDBDBD"}
             style={{ marginLeft: 24 }}
           />
-          <Text style={{ color: COLORS.black, marginLeft: 6 }}>15</Text>
+          <Text style={{ color: COLORS.black, marginLeft: 6 }}>
+            {post.like && post.like}
+          </Text>
         </View>
         <View
           style={{
@@ -55,8 +67,17 @@ const ItemPost = () => {
             alignItems: "flex-end",
           }}
         >
-          <Ionicons name="location-outline" size={24} color="#" />
-          <Text style={{ color: COLORS.black, marginLeft: 4 }}>Location</Text>
+          <Ionicons
+            name="location-outline"
+            size={24}
+            color="#BDBDBD"
+            onPress={() => {
+              navigation.navigate("MapScreen");
+            }}
+          />
+          <Text style={{ color: COLORS.black, marginLeft: 4 }}>
+            {post.location}
+          </Text>
         </View>
       </View>
     </View>

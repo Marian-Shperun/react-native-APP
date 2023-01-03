@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   },
 
   input: {
-    width: "85%",
+    width: "89%",
     padding: 16,
     fontFamily: "Roboto-Regulat",
     fontSize: 16,

@@ -12,6 +12,7 @@ const InputForm = ({
   password,
   inputPost,
   location,
+  children,
   ...props
 }) => {
   const [hiddenPass, setHiddenPass] = useState(password);
@@ -24,16 +25,12 @@ const InputForm = ({
             : { ...styles.inputWrapper, ...styles.inputWrapperPost }
         }
       >
-        {location && (
-          <Icon
-            style={{ top: 12 }}
-            name="location-outline"
-            type="ionicon"
-            color="#BDBDBD"
-          />
-        )}
+        {children}
         <TextInput
-          style={{ ...styles.input, left: location && -40 }}
+          style={{
+            ...styles.input,
+            right: location && 0,
+          }}
           {...props}
           autoCorrect={false}
           secureTextEntry={hiddenPass}

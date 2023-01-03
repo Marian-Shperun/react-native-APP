@@ -19,4 +19,15 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
   },
+  btnDelete: {
+    marginTop: 50,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 34,
+    borderRadius: 20,
+    paddingTop: 8,
+    paddingLeft: 23,
+    paddingRight: 23,
+    paddingBottom: 8,
+  },
 });
