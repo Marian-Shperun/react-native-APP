@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useAuth } from "../../../hooks/ContextProvider";
 
 import Container from "../../../components/Container";
 import Avatar from "../../../components/Avatar";
-import ItemPost from "../../../components/PostsList/ItemPost/ItemPost";
+import PostsList from "../../../components/PostsList/PostsList";
 
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./style";
 
-const ProfileScreen = () => {
-  const { setIsAuth } = useAuth();
+import {
+  NavigationContainer,
+  useRoute,
+  useNavigationState,
+} from "@react-navigation/native";
 
+const ProfileScreen = ({ navigation }) => {
+  const { setIsAuth } = useAuth();
   const [stateAvatar, setStateAvatar] = useState("");
+
+  // const posts = useNavigationState((state) => state.history) || [];
+  // console.log(posts);
+
   const onChangeVatart = () => {
     setIsAuth(false);
   };
@@ -29,10 +38,9 @@ const ProfileScreen = () => {
           onPress={onChangeVatart}
         />
         <Text style={styles.profileName}>Name User</Text>
+        <Text style={styles.profileName}></Text>
         <ScrollView style={{}}>
-          <View style={{ marginHorizontal: 16, marginBottom: 43 }}>
-            <ItemPost />
-          </View>
+          {/* <PostsList posts={posts} navigation={navigation} /> */}
         </ScrollView>
       </View>
     </Container>

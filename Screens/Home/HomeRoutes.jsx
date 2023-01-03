@@ -52,38 +52,9 @@ const Home = () => {
         <MainTab.Screen
           name="Posts Screen"
           component={PostsScreen}
-          options={({ navigation, route }) => ({
-            headerRight: () => (
-              <Ionicons
-                style={{ marginRight: 10 }}
-                onPress={() => {
-                  console.log("click");
-                  return setIsAuth(false);
-                }}
-                name="md-exit-outline"
-                size={28}
-                color="#BDBDBD"
-              />
-            ),
-
-            // headerShown: getHeaderTitle(route) === "Мій Профіль" ? false : true,
-            // headerBackVisible: false,
-            // headerTitle: getHeaderTitle(route),
-            // headerLeft: () => (
-            //   <>
-            //     {getHeaderTitle(route) === "Створити публікацію" && (
-            //       <Ionicons
-            //         name="arrow-back-sharp"
-            //         size={24}
-            //         color="black"
-            //         onPress={() => {
-            //           console.log(navigation.getState());
-            //         }}
-            //       />
-            //     )}
-            //   </>
-            // ),
-          })}
+          options={{
+            headerShown: false,
+          }}
         />
 
         <MainTab.Screen
@@ -109,7 +80,6 @@ const Home = () => {
           component={ProfileScreen}
           options={{
             headerShown: false,
-            // tabBarStyle: { height: 0 }, !!!!!!!!
           }}
         />
       </MainTab.Navigator>

@@ -1,26 +1,44 @@
-import { View, Text, ScrollView, Image } from "react-native";
-import { IMGS } from "../../../constants";
-import { styles } from './style'
+import {
+  MapScreen,
+  DefaultScreenPost,
+  CommentsScreen,
+} from "../../nestedScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "../../../hooks/ContextProvider";
+
+const NestedScreen = createStackNavigator();
 
 const PostsScreen = () => {
+  const { setIsAuth } = useAuth();
+
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        marginTop: 32,
-        marginHorizontal: 16,
-      }}
+    <NestedScreen.Navigator
+      screenOptions={({ navigation, route }) => ({
+        headerTitleAlign: "center",
+      })}
     >
-      <Image
-        source={IMGS.userAva}
-        style={styles.userFoto}
+      <NestedScreen.Screen
+        name="DefaultScreenPost"
+        component={DefaultScreenPost}
+        options={{
+          headerRight: () => (
+            <Ionicons
+              style={{ marginRight: 10 }}
+              onPress={() => {
+                console.log("click");
+                return setIsAuth(false);
+              }}
+              name="md-exit-outline"
+              size={28}
+              color="#BDBDBD"
+            />
+          ),
+        }}
       />
-      <View>
-        <Text style={styles.userName}> User Name</Text>
-        <Text style={styles.userEmail}> Email</Text>
-      </View>
-    </View>
+      <NestedScreen.Screen name="MapScreen" component={MapScreen} />
+      <NestedScreen.Screen name="CommentsScreen" component={CommentsScreen} />
+    </NestedScreen.Navigator>
   );
 };
 
