@@ -12,7 +12,7 @@ import InputForm from "../../../components/Form/InputForm";
 import { AntDesign } from "@expo/vector-icons";
 import { styles } from "./style";
 
-const FormPost = ({ stateImg, navigation, city }) => {
+const FormPost = ({ stateImg, navigation, city, location }) => {
   // console.log(Platform.OS);
   // console.log("navigation->>", navigation);
   const heightDisplay = Dimensions.get("window").height;
@@ -31,7 +31,7 @@ const FormPost = ({ stateImg, navigation, city }) => {
       hideSubscription.remove();
     };
   }, []);
-
+  
   const namePostHandler = (text) => {
     setNamePost(text);
   };
@@ -42,7 +42,8 @@ const FormPost = ({ stateImg, navigation, city }) => {
     title: namePost,
     comments: "",
     like: "",
-    location: addLocation,
+    city,
+    coordinates: { ...location },
   };
   const submitHandler = () => {
     // if (isImg === "" || namePost === "" || addLocation == "") {
@@ -91,7 +92,6 @@ const FormPost = ({ stateImg, navigation, city }) => {
               color={city ? "green" : "#BDBDBD"}
               size={30}
               onPress={() => {
-                console.log(city);
                 setAddLocation(city);
               }}
             />

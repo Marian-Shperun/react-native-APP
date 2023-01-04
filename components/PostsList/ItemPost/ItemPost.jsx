@@ -8,7 +8,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { IMGS, COLORS } from "../../../constants";
 
 const ItemPost = ({ post, navigation }) => {
-  
   return (
     <View style={{ marginBottom: 32 }}>
       <View
@@ -72,11 +71,11 @@ const ItemPost = ({ post, navigation }) => {
             size={24}
             color="#BDBDBD"
             onPress={() => {
-              navigation.navigate("MapScreen");
+              navigation.navigate("MapScreen", post.coordinates);
             }}
           />
           <Text style={{ color: COLORS.black, marginLeft: 4 }}>
-            {post.location}
+            {post.city}
           </Text>
         </View>
       </View>

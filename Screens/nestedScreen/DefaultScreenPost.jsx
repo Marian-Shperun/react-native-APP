@@ -13,9 +13,11 @@ import { IMGS } from "../../constants";
 
 const DefaultScreenPost = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-
   useEffect(() => {
-    if (route.params) setPosts((prevState) => [...prevState, route.params]);
+    if (route.params) {
+      setPosts((prevState) => [...prevState, route.params]);
+      // setLocation(route.params.location);
+    }
   }, [route.params]);
 
   return (
