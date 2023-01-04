@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Platform } from "react-native";
+import * as Location from "expo-location";
 
 import { useKeyboardState } from "../../../hooks/ContextProvider";
 import Container from "../../../components/Container";
@@ -13,9 +14,32 @@ const CreatePostsScreen = ({ navigation }) => {
   const { isShowKeyboard } = useKeyboardState();
   const [isImg, setIsImg] = useState("");
   const [city, setCity] = useState();
+  const [errorMsg, setErrorMsg] = useState(null);
 
-  const getLocation = (location) => setCity(location);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+      const location = await Location.getCurrentPositionAsync();
+      const place = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
 
+      place.find((p) => {
+        setCity(p.city);
+      });
+    })();
+  }, []);
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (city) {
+    text = JSON.stringify(city);
+  }
   return (
     <Container bgNone>
       <View
@@ -28,12 +52,10 @@ const CreatePostsScreen = ({ navigation }) => {
           <View style={{ marginHorizontal: 16 }}>
             {/* AddPhotoPost */}
 
-            <AddPhotoPost
-              stateImg={{ isImg, setIsImg }}
-              getLocation={getLocation}
-            />
+            <AddPhotoPost stateImg={{ isImg, setIsImg }} />
 
             {/* Form Post */}
+            {text}
             <FormPost
               stateImg={{ isImg, setIsImg }}
               navigation={navigation}

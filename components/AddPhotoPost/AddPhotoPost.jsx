@@ -1,7 +1,5 @@
 import { Camera, CameraType } from "expo-camera";
 
-import * as Location from "expo-location";
-
 import { useState } from "react";
 import { Button } from "@rneui/themed";
 import { View, Text, Image } from "react-native";
@@ -10,7 +8,7 @@ import { IMGS, COLORS } from "../../constants";
 
 import { styles } from "./style";
 
-const AddPhotoPost = ({ stateImg, getLocation }) => {
+const AddPhotoPost = ({ stateImg }) => {
   const { isImg, setIsImg } = stateImg;
   const [photo, setPhoto] = useState("");
   const [camera, setCamera] = useState(null);
@@ -21,18 +19,8 @@ const AddPhotoPost = ({ stateImg, getLocation }) => {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync();
-    const place = await Location.reverseGeocodeAsync({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    });
-
-    place.find((p) => {
-      getLocation(p.city);
-    });
 
     setPhoto(photo.uri);
-
     // console.log("camera---->", photo.uri);
   };
 
