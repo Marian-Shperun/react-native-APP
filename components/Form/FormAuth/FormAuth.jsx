@@ -8,25 +8,30 @@ import ButtonsForForm from "../../ButtonsForForm";
 import {
   useHidenKeyboard,
   useKeyboardState,
-  useAuth,
 } from "../../../hooks/ContextProvider";
 
 import { formAuthStyles } from "./style";
 import Avatar from "../../Avatar";
 
+import {
+  authSignUpUser,
+  authSignInUser,
+} from "../../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
+
 const FormAuth = ({ registration, title, navigation }) => {
   // console.log(Platform.OS);
   const keyboardHiden = useHidenKeyboard();
   const keyboardState = useKeyboardState();
-  const { setIsAuth } = useAuth();
 
   const { isShowKeyboard, setIsShowKeyboard } = keyboardState;
 
-  const [stateAvatar, setStateAvatar] = useState("");
+  const [avatar, setStateAvatar] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch();
   useEffect(() => {
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setIsShowKeyboard(false);
@@ -42,24 +47,21 @@ const FormAuth = ({ registration, title, navigation }) => {
 
   const submitHandler = () => {
     if (registration) {
-      console.log(`login: ${name}`);
-      console.log(`avatar: ${stateAvatar}`);
+      dispatch(authSignUpUser(email, password, name, avatar));
+    } else {
+      dispatch(authSignInUser(email, password));
     }
-    console.log(`email: ${email}`);
-    console.log(`password: ${password}`);
 
     keyboardHiden();
     setName("");
     setEmail("");
     setPassword("");
-
-    setIsAuth(true);
     // navigation.navigate("Home");
   };
 
   return (
     <View style={formAuthStyles.formInner}>
-      {registration && <Avatar state={{ stateAvatar, setStateAvatar }} />}
+      {registration && <Avatar state={{ avatar, setStateAvatar }} />}
 
       <Text
         style={{
