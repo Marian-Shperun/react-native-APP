@@ -32,7 +32,9 @@ const FormPost = ({ stateImg, navigation, city }) => {
     };
   }, []);
 
-  const namePostHandler = (text) => setNamePost(text);
+  const namePostHandler = (text) => {
+    setNamePost(text);
+  };
   const addLocationHandler = (text) => setAddLocation(text);
 
   const newPost = {
@@ -69,7 +71,9 @@ const FormPost = ({ stateImg, navigation, city }) => {
           inputPost
         />
         <InputForm
-          onFocus={() => setIsShowKeyboard(true)}
+          onFocus={() => {
+            setIsShowKeyboard(true);
+          }}
           value={addLocation}
           onChangeText={addLocationHandler}
           placeholder="Місцевість"
@@ -84,7 +88,7 @@ const FormPost = ({ stateImg, navigation, city }) => {
             <Icon
               name="location-outline"
               type="ionicon"
-              color="#BDBDBD"
+              color={city ? "green" : "#BDBDBD"}
               size={30}
               onPress={() => {
                 console.log(city);

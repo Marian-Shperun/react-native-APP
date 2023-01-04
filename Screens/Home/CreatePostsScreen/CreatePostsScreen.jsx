@@ -34,12 +34,7 @@ const CreatePostsScreen = ({ navigation }) => {
       });
     })();
   }, []);
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (city) {
-    text = JSON.stringify(city);
-  }
+
   return (
     <Container bgNone>
       <View
@@ -55,7 +50,6 @@ const CreatePostsScreen = ({ navigation }) => {
             <AddPhotoPost stateImg={{ isImg, setIsImg }} />
 
             {/* Form Post */}
-            {text}
             <FormPost
               stateImg={{ isImg, setIsImg }}
               navigation={navigation}
