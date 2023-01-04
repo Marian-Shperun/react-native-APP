@@ -1,17 +1,18 @@
+import { createStackNavigator } from "@react-navigation/stack";
+import { Ionicons } from "@expo/vector-icons";
+
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "../../../redux/auth/authOperations";
+
 import {
   MapScreen,
   DefaultScreenPost,
   CommentsScreen,
 } from "../../nestedScreen";
-import { createStackNavigator } from "@react-navigation/stack";
-import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "../../../hooks/ContextProvider";
-
 const NestedScreen = createStackNavigator();
 
 const PostsScreen = () => {
-  const { setIsAuth } = useAuth();
-
+  const dispatch = useDispatch();
   return (
     <NestedScreen.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -26,8 +27,7 @@ const PostsScreen = () => {
             <Ionicons
               style={{ marginRight: 10 }}
               onPress={() => {
-                console.log("click");
-                return setIsAuth(false);
+                dispatch(authSignOutUser());
               }}
               name="md-exit-outline"
               size={28}

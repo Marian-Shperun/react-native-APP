@@ -1,13 +1,23 @@
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { NavigationContainer } from "@react-navigation/native";
 
-import { useAuth } from "../hooks/ContextProvider";
 import Auth from "../Screens/Auth";
 import Home from "../Screens/Home";
 
-export default function AppComponent() {
-  const { isAuth } = useAuth();
+import { authStateCahngeUser } from "../redux/auth/authOperations";
 
+export default function AppComponent() {
+  const { stateChange } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(authStateCahngeUser());
+  }, []);
+  
   return (
-    <NavigationContainer>{!isAuth ? <Auth /> : <Home />}</NavigationContainer>
+    <NavigationContainer>
+      {!stateChange ? <Auth /> : <Home />}
+    </NavigationContainer>
   );
 }

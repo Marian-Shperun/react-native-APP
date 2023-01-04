@@ -12,7 +12,7 @@ import InputForm from "../../../components/Form/InputForm";
 import { AntDesign } from "@expo/vector-icons";
 import { styles } from "./style";
 
-const FormPost = ({ stateImg, navigation, city }) => {
+const FormPost = ({ stateImg, navigation, city, location }) => {
   // console.log(Platform.OS);
   // console.log("navigation->>", navigation);
   const heightDisplay = Dimensions.get("window").height;
@@ -32,7 +32,9 @@ const FormPost = ({ stateImg, navigation, city }) => {
     };
   }, []);
 
-  const namePostHandler = (text) => setNamePost(text);
+  const namePostHandler = (text) => {
+    setNamePost(text);
+  };
   const addLocationHandler = (text) => setAddLocation(text);
 
   const newPost = {
@@ -40,7 +42,8 @@ const FormPost = ({ stateImg, navigation, city }) => {
     title: namePost,
     comments: "",
     like: "",
-    location: addLocation,
+    city,
+    coordinates: { ...location },
   };
   const submitHandler = () => {
     // if (isImg === "" || namePost === "" || addLocation == "") {
@@ -69,7 +72,9 @@ const FormPost = ({ stateImg, navigation, city }) => {
           inputPost
         />
         <InputForm
-          onFocus={() => setIsShowKeyboard(true)}
+          onFocus={() => {
+            setIsShowKeyboard(true);
+          }}
           value={addLocation}
           onChangeText={addLocationHandler}
           placeholder="Місцевість"
@@ -84,10 +89,9 @@ const FormPost = ({ stateImg, navigation, city }) => {
             <Icon
               name="location-outline"
               type="ionicon"
-              color="#BDBDBD"
+              color={city ? "green" : "#BDBDBD"}
               size={30}
               onPress={() => {
-                console.log(city);
                 setAddLocation(city);
               }}
             />

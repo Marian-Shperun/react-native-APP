@@ -1,23 +1,31 @@
 import MapView, { Marker } from "react-native-maps";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import { useState, useEffect } from "react";
 
-const MapScreen = () => {
+const MapScreen = ({ route }) => {
+  const [location, setLocation] = useState("");
+
+  useEffect(() => {
+    if (route.params) {
+      setLocation(route.params);
+    }
+  }, [route.params]);
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.006,
-          longitudeDelta: 0.01,
-        }}
-      >
-        <Marker
-          coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
-          title="travel photo"
-        />
-      </MapView>
+      {location ? (
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            ...location,
+            latitudeDelta: 0.006,
+            longitudeDelta: 0.01,
+          }}
+        >
+          <Marker coordinate={{ ...location }} title="travel photo" />
+        </MapView>
+      ) : (
+        <Text>Downloading map...</Text>
+      )}
     </View>
   );
 };

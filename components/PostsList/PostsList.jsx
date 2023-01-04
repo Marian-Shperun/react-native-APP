@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import { Text, View, FlatList } from "react-native";
 import ItemPost from "./ItemPost/ItemPost";
-import { IMGS } from "../../constants";
 
 const PostsList = ({ posts, navigation }) => {
-  console.log(posts)
   return (
     <View style={{ marginHorizontal: 16, marginBottom: 0 }}>
       {posts.length > 0 ? (

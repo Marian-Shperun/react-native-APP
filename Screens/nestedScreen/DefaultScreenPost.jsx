@@ -7,13 +7,16 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
+import { useSelector } from "react-redux";
 import PostsList from "../../components/PostsList/PostsList";
 
 import { IMGS } from "../../constants";
 
 const DefaultScreenPost = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-
+  const { nickName, userEmail, photoProfile } = useSelector(
+    (state) => state.auth
+  );
   useEffect(() => {
     if (route.params) setPosts((prevState) => [...prevState, route.params]);
   }, [route.params]);
@@ -29,10 +32,10 @@ const DefaultScreenPost = ({ route, navigation }) => {
           marginBottom: 32,
         }}
       >
-        <Image source={IMGS.userAva} style={styles.userFoto} />
+        <Image source={{ uri: photoProfile }} style={styles.userFoto} />
         <View>
-          <Text style={styles.userName}> User Name</Text>
-          <Text style={styles.userEmail}> Email</Text>
+          <Text style={styles.userName}> {nickName}</Text>
+          <Text style={styles.userEmail}> {userEmail}</Text>
         </View>
       </View>
       <PostsList posts={posts} navigation={navigation} />

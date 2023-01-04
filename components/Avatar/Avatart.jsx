@@ -7,36 +7,39 @@ import { Icon } from "@rneui/themed";
 import { IMGS, COLORS } from "../../constants";
 import { styles } from "./style";
 
-const Avatart = ({ state, profile }) => {
-  const { stateAvatar, setStateAvatar } = state;
+const Avatart = ({ state, profile, photoProfile }) => {
+  const { avatar, setStateAvatar } = state;
   return (
     <View style={styles.avatar}>
-      <View style={{ ...styles.imgAvatar, top: profile ? -92 : 0 }}>
-        {stateAvatar && (
+      <View
+        style={{
+          ...styles.imgAvatar,
+          top: profile ? -92 : 0,
+        }}
+      >
+        {avatar && (
           <Image
-            source={IMGS.userAva}
-            style={{ width: "100%", height: "100%" }}
+            source={{ uri: avatar }}
+            style={{ width: "100%", height: "100%", borderRadius: 16 }}
           />
         )}
         <View
           style={{
             ...styles.addAvatar,
-            transform: [{ rotate: !stateAvatar ? "0deg" : "45deg" }],
-            borderColor: !stateAvatar ? COLORS.akcent : COLORS.gray,
-            backgroundColor: !stateAvatar ? "none" : COLORS.white,
+            transform: [{ rotate: !avatar ? "0deg" : "45deg" }],
+            borderColor: !avatar ? COLORS.akcent : COLORS.gray,
+            backgroundColor: !avatar ? "none" : COLORS.white,
           }}
           accessibilityRole="button"
         >
           <Icon
             name="add"
             type="ionicon"
-            color={!stateAvatar ? COLORS.akcent : "#BDBDBD"}
+            color={!avatar ? COLORS.akcent : "#BDBDBD"}
             size={21}
             style={{ right: -0.8 }}
             onPress={() => {
-              !stateAvatar
-                ? setStateAvatar("The way to the picture")
-                : setStateAvatar("");
+              !avatar ? setStateAvatar(IMGS.postImg) : setStateAvatar("");
             }}
           />
         </View>

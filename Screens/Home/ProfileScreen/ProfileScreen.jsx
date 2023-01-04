@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { useAuth } from "../../../hooks/ContextProvider";
+import { useSelector, useDispatch } from "react-redux";
+import { authSignOutUser } from "../../../redux/auth/authOperations";
 
 import Container from "../../../components/Container";
 import Avatar from "../../../components/Avatar";
@@ -9,35 +10,29 @@ import PostsList from "../../../components/PostsList/PostsList";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./style";
 
-import {
-  NavigationContainer,
-  useRoute,
-  useNavigationState,
-} from "@react-navigation/native";
-
-const ProfileScreen = ({ navigation }) => {
-  const { setIsAuth } = useAuth();
+const ProfileScreen = () => {
+  const { userId, nickName, userEmail, photoProfile } = useSelector(
+    (state) => state.auth
+  );
   const [stateAvatar, setStateAvatar] = useState("");
-
-  // const posts = useNavigationState((state) => state.history) || [];
-  // console.log(posts);
-
-  const onChangeVatart = () => {
-    setIsAuth(false);
-  };
+  const dispatch = useDispatch();
 
   return (
     <Container>
       <View style={styles.profile}>
-        <Avatar state={{ stateAvatar, setStateAvatar }} profile />
+        <Avatar
+          state={{ stateAvatar, setStateAvatar }}
+          profile
+          // photoProfile={photoProfile}
+        />
         <Ionicons
           style={{ position: "absolute", top: 22, right: 16 }}
           name="md-exit-outline"
           size={25}
           color="#BDBDBD"
-          onPress={onChangeVatart}
+          onPress={() => dispatch(authSignOutUser())}
         />
-        <Text style={styles.profileName}>Name User</Text>
+        <Text style={styles.profileName}>{nickName}</Text>
         <Text style={styles.profileName}></Text>
         <ScrollView style={{}}>
           {/* <PostsList posts={posts} navigation={navigation} /> */}
