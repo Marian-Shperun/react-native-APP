@@ -24,5 +24,9 @@ export const authSlice = createSlice({
       stateChange: payload.stateChange,
     }),
     authSignOut: () => state,
+    updateStateProfile: (state, { payload }) => ({
+      ...state,
+      photoProfile: payload.photoProfile,
+    }),
   },
 });
