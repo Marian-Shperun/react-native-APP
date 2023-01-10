@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as DocumentPicker from "expo-document-picker";
 
-import { View, Image } from "react-native";
+import { View, Image,  } from "react-native";
 
 import { Icon } from "@rneui/themed";
 
-import { IMGS, COLORS } from "../../constants";
-import { styles } from "./style";
+import { styles, COLORS } from "./style";
 
-const Avatart = ({ state, profile, photoProfile }) => {
-  const { avatar, setStateAvatar } = state;
+const Avatart = ({ getPhotoProfile, photoProfile, profile }) => {
+  const [avatar, setAvatar] = useState(photoProfile ? photoProfile : "");
+
+  const dispatch = useDispatch();
+
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({
+      copyToCacheDirectory: false,
+      type: "*/*",
+      multiple: true,
+    });
+
+    if (!avatar) {
+      setAvatar(result.uri);
+      getPhotoProfile(result.uri);
+    } else {
+      setAvatar(result.uri);
+      // dispatch(updateCurrentUserProfile(result.uri));
+    }
+  };
   return (
     <View style={styles.avatar}>
       <View
@@ -23,6 +42,7 @@ const Avatart = ({ state, profile, photoProfile }) => {
             style={{ width: "100%", height: "100%", borderRadius: 16 }}
           />
         )}
+
         <View
           style={{
             ...styles.addAvatar,
@@ -39,7 +59,11 @@ const Avatart = ({ state, profile, photoProfile }) => {
             size={21}
             style={{ right: -0.8 }}
             onPress={() => {
-              !avatar ? setStateAvatar(IMGS.postImg) : setStateAvatar("");
+              if (!avatar) {
+                pickDocument();
+              } else {
+                setAvatar("");
+              }
             }}
           />
         </View>

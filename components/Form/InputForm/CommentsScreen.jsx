@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import db from "../../../firebase/config";
 
 import {
-  SafeAreaView,
   Image,
   View,
   Text,
@@ -18,6 +16,47 @@ import { useKeyboardState } from "../../../hooks/ContextProvider";
 
 import { Feather } from "@expo/vector-icons";
 import { styles, COLORS } from "./style";
+import { IMGS } from "../../../constants";
+import { useSelector } from "react-redux";
+import { SafeAreaView } from "react-native";
+
+// const com = [
+//   {
+//     userPhoto: IMGS.userAva,
+//     comment: "ваоіалвіолалі івлоалівраолів",
+//     date: Date.now(),
+//   },
+//   {
+//     userPhoto: IMGS.userAva,
+//     comment: "ваоіалвіолалі івлоалівраолів",
+//     date: Date.now(),
+//   },
+//   {
+//     userPhoto: IMGS.userAva,
+//     comment: "ваоіалвіолалі івлоалівраолів",
+//     date: Date.now(),
+//   },
+//   {
+//     userPhoto: IMGS.userAva,
+//     comment: "ваоіалвіолалі івлоалівраолів",
+//     date: Date.now(),
+//   },
+//   {
+//     userPhoto: IMGS.userAva,
+//     comment: "ваоіалвіолалі івлоалівраолів",
+//     date: Date.now(),
+//   },
+//   {
+//     userPhoto: IMGS.userAva,
+//     comment: "ваоіалвіолалі івлоалівраолів",
+//     date: Date.now(),
+//   },
+//   {
+//     userPhoto: IMGS.userAva,
+//     comment: "ваоіалвіолалі івлоалівраолів",
+//     date: Date.now(),
+//   },
+// ];
 
 const renderItem = ({ item, index }) => {
   const evenItem = index % 2 === 0;

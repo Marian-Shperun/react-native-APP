@@ -1,6 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
-
 import { useDispatch } from "react-redux";
 import { authSignOutUser } from "../../../redux/auth/authOperations";
 
@@ -8,15 +7,37 @@ import {
   MapScreen,
   DefaultScreenPost,
   CommentsScreen,
+  UserAllPostScreen,
 } from "../../nestedScreen";
 const NestedScreen = createStackNavigator();
+import { CommonActions } from "@react-navigation/native";
 
 const PostsScreen = () => {
   const dispatch = useDispatch();
+
   return (
     <NestedScreen.Navigator
-      screenOptions={({ navigation, route }) => ({
+      screenOptions={() => ({
         headerTitleAlign: "center",
+      })}
+      screenListeners={({ route, navigation }) => ({
+        state: (e) => {
+          if (route.name === "CommentsScreen") {
+            navigation.dispatch(
+              CommonActions.navigate({
+                name: "Posts Screen",
+                params: { display: "none" },
+              })
+            );
+          } else {
+            navigation.dispatch(
+              CommonActions.navigate({
+                name: "Posts Screen",
+                params: { display: "flex" },
+              })
+            );
+          }
+        },
       })}
     >
       <NestedScreen.Screen
@@ -34,10 +55,25 @@ const PostsScreen = () => {
               color="#BDBDBD"
             />
           ),
+          title: "Публікації",
         }}
       />
-      <NestedScreen.Screen name="MapScreen" component={MapScreen} />
-      <NestedScreen.Screen name="CommentsScreen" component={CommentsScreen} />
+
+      <NestedScreen.Screen
+        name="CommentsScreen"
+        component={CommentsScreen}
+        options={{ title: "Коментарії" }}
+      />
+      <NestedScreen.Screen
+        name="UserAllPostScreen"
+        component={UserAllPostScreen}
+        options={{ title: "Пости" }}
+      />
+      <NestedScreen.Screen
+        name="MapScreen"
+        component={MapScreen}
+        options={{ title: "Карта" }}
+      />
     </NestedScreen.Navigator>
   );
 };

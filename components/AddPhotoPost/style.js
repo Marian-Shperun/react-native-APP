@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../constants";
 
 export const styles = StyleSheet.create({
   camera: {
@@ -16,18 +17,24 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
   takePhotoContainer: {
-    // position: "absolute",
-    // top: 0,
-    // left: 0,
     width: 150,
     height: 150,
     borderWidth: 1,
     borderColor: "red",
   },
+  image: { width: "100%", height: "100%" },
+
   cameraBtn: {
     width: 60,
     height: 60,
     borderRadius: 100,
+    backgroundColor: `${COLORS.white}`,
     zIndex: 5,
+  },
+  btnAddRemove: {
+    fontFamily: "Roboto-Regulat",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#BDBDBD",
   },
 });

@@ -1,10 +1,9 @@
-// import React, { useState, useEffect } from "react";
 import { Text, View, FlatList } from "react-native";
 import ItemPost from "./ItemPost/ItemPost";
 
 const PostsList = ({ posts, navigation }) => {
   return (
-    <View style={{ marginHorizontal: 16, marginBottom: 0 }}>
+    <View>
       {posts.length > 0 ? (
         <FlatList
           data={posts}

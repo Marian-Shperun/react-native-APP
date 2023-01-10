@@ -11,10 +11,11 @@ import { authStateCahngeUser } from "../redux/auth/authOperations";
 export default function AppComponent() {
   const { stateChange } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(authStateCahngeUser());
   }, []);
-  
+
   return (
     <NavigationContainer>
       {!stateChange ? <Auth /> : <Home />}

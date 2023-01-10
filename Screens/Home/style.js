@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     paddingTop: 13.5,
     paddingBottom: 13.5,
     paddingLeft: 28.5,
-    paddingRight: 28.5, //58.5
-    borderRadius: 50,
+    paddingRight: 28.5,
+    borderRadius: 27,
+    overflow: "hidden",
   },
 });

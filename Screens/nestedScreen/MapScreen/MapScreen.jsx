@@ -12,7 +12,7 @@ const MapScreen = ({ route }) => {
   }, [route.params]);
   return (
     <View style={styles.container}>
-      {location ? (
+      {typeof location === "object" ? (
         <MapView
           style={styles.map}
           initialRegion={{
@@ -24,7 +24,7 @@ const MapScreen = ({ route }) => {
           <Marker coordinate={{ ...location }} title="travel photo" />
         </MapView>
       ) : (
-        <Text>Downloading map...</Text>
+        <Text style={{justifyContent: 'center'}}>{location}</Text>
       )}
     </View>
   );

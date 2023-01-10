@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@rneui/themed";
 import { View, Text, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { IMGS, COLORS } from "../../constants";
+import * as DocumentPicker from "expo-document-picker";
 
 import { styles } from "./style";
 
@@ -21,74 +21,60 @@ const AddPhotoPost = ({ stateImg }) => {
     const photo = await camera.takePictureAsync();
 
     setPhoto(photo.uri);
-    // console.log("camera---->", photo.uri);
+    setIsImg(photo.uri);
   };
 
   const onCameraReady = () => {
     setIsCameraReady(true);
   };
 
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({
+      type: "*/*",
+      multiple: true,
+      copyToCacheDirectory: true,
+    });
+    console.log(result.uri);
+    console.log(result);
+    setIsImg(result.uri);
+  };
+
   const btnAddRemovePhoto = (e) => {
     const textBtn = e._targetInst.memoizedProps.children;
-    // console.log(textBtn);
     if (textBtn === "Редагувати фото") {
       if (photo) {
         setPhoto("");
         setIsImg("");
       } else {
         console.log("Змінено  фото");
-        setIsImg("Фото змінено");
+        pickDocument();
       }
     } else {
       console.log("Додано фото");
-      setIsImg(IMGS.postImg);
+      pickDocument();
     }
   };
 
   return (
     <>
       <View style={styles.photoContainer}>
-        {isImg && (
-          <Image
-            source={{ uri: isImg }}
-            style={{ width: "100%", height: "100%" }}
-          />
-        )}
+        {isImg && <Image source={{ uri: isImg }} style={styles.image} />}
 
-        {photo && (
-          <Image
-            source={{ uri: photo }}
-            style={{ width: "100%", height: "100%" }}
-          />
-        )}
+        {photo && <Image source={{ uri: photo }} style={styles.image} />}
 
         <Camera
           style={styles.camera}
           ref={setCamera}
           onCameraReady={onCameraReady}
         >
-          <Button
-            buttonStyle={{
-              ...styles.cameraBtn,
-              backgroundColor: `${COLORS.white}`,
-            }}
-            onPress={takePhoto}
-          >
+          <Button buttonStyle={styles.cameraBtn} onPress={takePhoto}>
             <MaterialIcons name="add-a-photo" size={24} color="#BDBDBD" />
           </Button>
         </Camera>
       </View>
 
       {/* btnAddRemove */}
-      <Text
-        style={{
-          fontFamily: "Roboto-Regulat",
-          fontSize: 16,
-          lineHeight: 19,
-          color: "#BDBDBD",
-        }}
-        onPress={btnAddRemovePhoto}
-      >
+      <Text style={styles.btnAddRemove} onPress={btnAddRemovePhoto}>
         {isImg || photo ? "Редагувати фото" : "Завантажити фото"}
       </Text>
     </>

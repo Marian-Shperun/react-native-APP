@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../constants";
 
 export const styles = StyleSheet.create({
   avatar: { flex: 1, alignItems: "center" },
@@ -20,3 +21,5 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
 });
+
+export { COLORS };

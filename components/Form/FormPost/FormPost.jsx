@@ -1,26 +1,30 @@
 import { useState, useEffect } from "react";
-// import { v1 as uuidv1 } from "uuid";
-import { Icon } from "@rneui/themed";
-
-import { Button } from "@rneui/themed";
 import { View, Platform, Keyboard, Dimensions } from "react-native";
-import { COLORS, IMGS } from "../../../constants";
+import { useSelector } from "react-redux";
+import { Button } from "@rneui/themed";
+import { Icon } from "@rneui/themed";
+import { AntDesign } from "@expo/vector-icons";
 
 import { useKeyboardState } from "../../../hooks/ContextProvider";
+
 import InputForm from "../../../components/Form/InputForm";
 
-import { AntDesign } from "@expo/vector-icons";
-import { styles } from "./style";
+import { styles, COLORS } from "./style";
+
+import db from "../../../firebase/config";
 
 const FormPost = ({ stateImg, navigation, city, location }) => {
   // console.log(Platform.OS);
-  // console.log("navigation->>", navigation);
+  const { userId, nickName, userEmail, photoProfile } = useSelector(
+    (state) => state.auth
+  );
   const heightDisplay = Dimensions.get("window").height;
 
   const { isImg, setIsImg } = stateImg;
   const { isShowKeyboard, setIsShowKeyboard } = useKeyboardState();
   const [namePost, setNamePost] = useState("");
   const [addLocation, setAddLocation] = useState("");
+  const [coordinates, setCoordinates] = useState("");
 
   useEffect(() => {
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
@@ -32,29 +36,53 @@ const FormPost = ({ stateImg, navigation, city, location }) => {
     };
   }, []);
 
-  const namePostHandler = (text) => {
-    setNamePost(text);
-  };
+  const namePostHandler = (text) => setNamePost(text);
   const addLocationHandler = (text) => setAddLocation(text);
 
-  const newPost = {
-    photo: isImg,
-    title: namePost,
-    comments: "",
-    like: "",
-    city,
-    coordinates: { ...location },
-  };
-  const submitHandler = () => {
-    // if (isImg === "" || namePost === "" || addLocation == "") {
-    //   return;
-    // }
-    console.log(`name post: ${namePost}`);
-    console.log(`location: ${addLocation}`);
-    console.log(`photo post: ${isImg}`);
+  // !!!!!! add foto in storage
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(isImg);
+    const file = await response.blob();
+    const uniquePostId = Date.now().toString();
+    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+    // console.log("data", data);
 
-    // keyboardHiden();
-    navigation.navigate("DefaultScreenPost", newPost);
+    const proccesedPhoto = await db
+      .storage()
+      .ref(`postImage`)
+      .child(uniquePostId)
+      .getDownloadURL();
+    return proccesedPhoto;
+  };
+
+  // !!!!!! add post in firestore
+  const uploadPostToServer = async () => {
+    const photo = await uploadPhotoToServer();
+    try {
+      const newPost = {
+        user: { userId, nickName, userEmail, photoProfile },
+        photo,
+        title: namePost,
+        place: addLocation,
+        coordinates: coordinates
+          ? { ...coordinates }
+          : "Місце не позначено на карті 🤷‍♂️",
+        date: Date.now(),
+      };
+      const createPost = await db.firestore().collection("posts").add(newPost);
+    } catch (e) {
+      console.log(e);
+      console.log(e.message);
+    }
+  };
+
+  const submitHandler = () => {
+    if (isImg === "" || namePost === "" || addLocation == "") {
+      return;
+    }
+
+    uploadPostToServer();
+    navigation.navigate("DefaultScreenPost");
 
     setNamePost("");
     setAddLocation("");
@@ -93,6 +121,9 @@ const FormPost = ({ stateImg, navigation, city, location }) => {
               size={30}
               onPress={() => {
                 setAddLocation(city);
+                if (location) {
+                  setCoordinates(location);
+                }
               }}
             />
           </View>

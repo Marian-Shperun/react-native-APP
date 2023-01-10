@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../constants";
 
 export const styles = StyleSheet.create({
   inputWrapper: {
@@ -28,3 +29,4 @@ export const styles = StyleSheet.create({
     lineHeight: 19,
   },
 });
+export { COLORS };

@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
 
-import { View, Keyboard, Text, Platform } from "react-native";
-
-import InputForm from "../InputForm";
-import ButtonsForForm from "../../ButtonsForForm";
-
+import { useDispatch } from "react-redux";
+import {
+  authSignUpUser,
+  authSignInUser,
+} from "../../../redux/auth/authOperations";
 import {
   useHidenKeyboard,
   useKeyboardState,
 } from "../../../hooks/ContextProvider";
 
+import { View, Keyboard, Text, Platform } from "react-native";
+
+import InputForm from "../InputForm";
+import ButtonsForForm from "../../ButtonsForForm";
+
 import { formAuthStyles } from "./style";
 import Avatar from "../../Avatar";
 
-import {
-  authSignUpUser,
-  authSignInUser,
-} from "../../../redux/auth/authOperations";
-import { useDispatch } from "react-redux";
+import { IMGS } from "../../../constants";
 
 const FormAuth = ({ registration, title, navigation }) => {
   // console.log(Platform.OS);
@@ -47,7 +48,14 @@ const FormAuth = ({ registration, title, navigation }) => {
 
   const submitHandler = () => {
     if (registration) {
-      dispatch(authSignUpUser(email, password, name, avatar));
+      dispatch(
+        authSignUpUser(
+          email,
+          password,
+          name,
+          !avatar ? IMGS.defaultAvatar : avatar
+        )
+      );
     } else {
       dispatch(authSignInUser(email, password));
     }
@@ -56,12 +64,15 @@ const FormAuth = ({ registration, title, navigation }) => {
     setName("");
     setEmail("");
     setPassword("");
-    // navigation.navigate("Home");
+    setStateAvatar("");
   };
 
+  const getPhotoProfile = (photo) => {
+    setStateAvatar(photo);
+  };
   return (
     <View style={formAuthStyles.formInner}>
-      {registration && <Avatar state={{ avatar, setStateAvatar }} />}
+      {registration && <Avatar getPhotoProfile={getPhotoProfile} />}
 
       <Text
         style={{

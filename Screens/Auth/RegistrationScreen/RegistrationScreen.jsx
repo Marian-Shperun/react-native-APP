@@ -4,6 +4,7 @@ import FormAuth from "../../../components/Form/FormAuth";
 import { useKeyboardState } from "../../../hooks/ContextProvider";
 
 import { formAuthStyles } from "../../../components/Form/FormAuth/style";
+import Container from "../../../components/Container";
 const RegistrationScreen = (props) => {
   const { isShowKeyboard } = useKeyboardState();
 

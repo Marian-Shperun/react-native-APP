@@ -2,7 +2,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import ContextProvider from "./hooks/ContextProvider";
 import AppComponent from "./components/AppComponent";
-import "./firebase/config";
+import "@env";
 
 export default function App() {
   return (

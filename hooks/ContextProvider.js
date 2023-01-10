@@ -6,7 +6,6 @@ import { Keyboard } from "react-native";
 const ConnectingFontsContext = React.createContext();
 const KeyboardStateContext = React.createContext();
 const HidenKeyboardContext = React.createContext();
-const AuthContext = React.createContext();
 
 export const useConnectingFonts = () => {
   return useContext(HidenKeyboardContext);
@@ -18,10 +17,6 @@ export const useKeyboardState = () => {
 
 export const useHidenKeyboard = () => {
   return useContext(HidenKeyboardContext);
-};
-
-export const useAuth = () => {
-  return useContext(AuthContext);
 };
 
 export const ContextProvider = ({ children }) => {
@@ -53,9 +48,7 @@ export const ContextProvider = ({ children }) => {
         value={{ isShowKeyboard, setIsShowKeyboard }}
       >
         <HidenKeyboardContext.Provider value={keyboardHiden}>
-          <AuthContext.Provider value={{ isAuth, setIsAuth }}>
-            {children}
-          </AuthContext.Provider>
+          {children}
         </HidenKeyboardContext.Provider>
       </KeyboardStateContext.Provider>
     </ConnectingFontsContext.Provider>

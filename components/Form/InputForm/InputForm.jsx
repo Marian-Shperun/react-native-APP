@@ -2,13 +2,9 @@ import { Icon } from "@rneui/themed";
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
 
-import { COLORS } from "../../../constants";
-import { styles } from "./style";
+import { styles, COLORS } from "./style";
+
 const InputForm = ({
-  label,
-  iconName,
-  error,
-  typeIcon,
   password,
   inputPost,
   location,
@@ -17,7 +13,7 @@ const InputForm = ({
 }) => {
   const [hiddenPass, setHiddenPass] = useState(password);
   return (
-    <View>
+    <>
       <View
         style={
           !inputPost
@@ -45,7 +41,7 @@ const InputForm = ({
           />
         )}
       </View>
-    </View>
+    </>
   );
 };
 
